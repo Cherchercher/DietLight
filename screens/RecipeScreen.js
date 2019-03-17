@@ -15,6 +15,10 @@
     const URL = 'https://www.themealdb.com/api/json/v1/1/latest.php';
     
     export default class RecipeScreen extends React.Component {
+        static navigationOptions = ({ navigation }) => ({
+            title: `Recommendations`,
+          });
+
         constructor(props) {
             super(props);
               this.state = {
@@ -101,7 +105,7 @@
                     <Text 
                         style={styles.title}
                         onPress={() => Linking.openURL(item.strSource)}
-                    >     
+                    >    
                         {item.title}
                         Calories: {item.calories} Protein: {item.protein} Fat: {item.fat} Carbs {item.carbs}
                     </Text>
