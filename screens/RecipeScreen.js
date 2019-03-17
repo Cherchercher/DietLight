@@ -1,6 +1,5 @@
 
     import React, { Component } from 'react';
-    import Autocomplete from 'react-native-autocomplete-input';
     import Spoonacular from '../APIs/Spoonacular';
     import { SearchBar } from 'react-native-elements';
     import { 

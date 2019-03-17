@@ -1,12 +1,25 @@
 import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
+import Parse from '../APIs/Parse';
+
 
 export default class LinksScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Links',
-  };
+  constructor(props) {
+    super(props);
+      this.state = {
+                Parse:new Parse(),
+                isLoading: true,
+      }
+ }
 
+
+
+ componentDidMount() {
+  this.state.Parse.create('dev',{'location':'exotic'})
+
+
+}
   render() {
     return (
       <ScrollView style={styles.container}>
