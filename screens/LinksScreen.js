@@ -13,12 +13,8 @@ export default class LinksScreen extends React.Component {
       }
  }
 
-
-
- componentDidMount() {
-  this.state.Parse.create('dev',{'location':'exotic'})
-
-
+componentDidMount() {
+    this.state.Parse.create('MedicalRecord',{'maxFat':44,'maxCalorie':2000,'userId':1})
 }
   render() {
     return (

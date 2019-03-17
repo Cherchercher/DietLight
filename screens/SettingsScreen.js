@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { ProgressCircle, LineChart, YAxis, Grid } from 'react-native-svg-charts'
-
+import Parse from '../APIs/Parse';
 
 const styles = StyleSheet.create({
   container: {
@@ -43,13 +43,16 @@ class SettingsScreen extends React.Component {
             data1 : [55, 300, 90, 60, 56, 69, 91],
             data2 : [91, 69, 56, 60, 90, 62, 330],
             data3 : [82, 153, 63,  100, 113, 94, 116],
-            contentInset : {top: 20, bottom: 20}
+            contentInset : {top: 20, bottom: 20},
+            isLoading: true,
+            Parse:new Parse(),
       } 
     }
 
 
-    componentDidMount() {
-
+    async componentDidMount() {
+       record = await this.state.Parse.get('MedicalRecord','userId',1);
+       this.setState({total:record.maxCal})    
     }
     
 
