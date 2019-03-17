@@ -103,7 +103,7 @@
                         onPress={() => Linking.openURL(item.strSource)}
                     >     
                         {item.title}
-                        Calories: {item.calories} Protein: {item.protein} Sat. Fat: {item.suturatedFat} Carbs {item.carbs}
+                        Calories: {item.calories} Protein: {item.protein} Fat: {item.fat} Carbs {item.carbs}
                     </Text>
                 </View>}
             />

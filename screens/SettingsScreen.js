@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { ProgressCircle } from 'react-native-svg-charts'
-
+import Parse from '../APIs/Parse';
 
 
 
@@ -28,14 +28,15 @@ class SettingsScreen extends React.Component {
       this.state = {
             total:2000,
             accu:1500,
-            isLoading: true
-      
+            isLoading: true,
+            Parse:new Parse(),
       } 
     }
 
 
-    componentDidMount() {
-
+    async componentDidMount() {
+       record = await this.state.Parse.get('MedicalRecord','userId',1);
+       this.setState({total:record.maxCal})    
     }
     
 

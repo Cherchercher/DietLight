@@ -1,13 +1,11 @@
 const { AsyncStorage } = require('react-native');
 const Parse = require('parse/react-native');
-
 Parse.setAsyncStorage(AsyncStorage);
 Parse.serverURL = 'https://parseapi.back4app.com'; // This is your Server URL
 Parse.initialize(
-  'ZIKomhlZm0IheXSsxQ2nRwSCZxIS2fAl1LComQtp', // This is your Application ID
-  'bj0kbdKkM8QDUsCsLbwKqVckYfhaWr0M6TFGtZps' // This is your Javascript key
+  'EGpXbJXDNK3SyRn1zsIx3ChFCbMr4YZZGFw8cm5v', // This is your Application ID
+  'y5rzOjNLA7I5TpxGkn89Oo9BPA4TAvjJDkRrATIm' // This is your Javascript key
 );
-
 
 class ParseAPI {
 	constructor() {
@@ -35,19 +33,21 @@ class ParseAPI {
     }
 
 
-    get(className,keyName,valName){
+    async get(className,keyName,valName){
         const MyCustomClass = this.parse.Object.extend(className);
         const query = new Parse.Query(MyCustomClass);
-        query.equalTo(keyName, keyName);
-        query.find().then((results) => {
+        query.equalTo(keyName, valName);
+        
+        result  = await query.find().then((results) => {
+
             // You can use the "get" method to get the value of an attribute
           // Ex: response.get("<ATTRIBUTE_NAME>")
-          if (typeof document !== 'undefined')
-          console.log('ParseObjects found:', results);
+          return {'maxCal':results[0].get("maxCalorie"),'maxFat':results[0].get("maxCalorie")}
+          //  return results.get("maxCalorie");
         }, (error) => {
-          if (typeof document !== 'undefined')
-          console.error('Error while fetching ParseObjects', error);
+          return JSON.stringify(results);;
         });
+        return result;
     }
 
 
