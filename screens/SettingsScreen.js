@@ -1,14 +1,31 @@
-import React from 'react';
-import { ExpoConfigView } from '@expo/samples';
+import React, { Component } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import PureChart from 'react-native-pure-chart';
 
-export default class SettingsScreen extends React.Component {
-  static navigationOptions = {
-    title: 'app.json',
-  };
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f7f7f7',
+  },
+});
+
+class SettingsScreen extends Component {
+  static navigationOptions = ({ navigation }) => ({
+    title: `Analytics`,
+  });
   render() {
-    /* Go ahead and delete ExpoConfigView and replace it with your
-     * content, we just wanted to give you a quick view of your config */
-    return <ExpoConfigView />;
+    let sampleData = [30, 200, 170, 250, 10]
+
+    return (
+      <View style={styles.container}>
+        <PureChart data={sampleData} type='line' />
+      </View>
+    )
   }
 }
+
+export default SettingsScreen;
+

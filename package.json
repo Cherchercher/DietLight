@@ -19,11 +19,14 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
     "react-native-autocomplete-input": "^3.6.0",
     "react-native-elements": "^1.0.0",
-    "react-native-svg": "9.2.4",
-    "react-native-svg-charts": "2.1.0",
+    "react-native-pathjs-charts": "0.0.34",
+    "react-native-pure-chart": "0.0.24",
     "react-navigation": "^3.0.9",
     "stream": "0.0.2",
     "unirest": "^0.6.0"
+  },
+  "resolutions": {
+    "react-native-svg": "8.0.8"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.0.0",
