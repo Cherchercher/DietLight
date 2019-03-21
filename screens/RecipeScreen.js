@@ -28,6 +28,7 @@
                         query: '',
                         displayResults:true,
                         meals:'',
+                        dislikes:[],
                         spoons:'',
                         Parse:new Parse(),
                         data:['aaaaaaa','bbbbbb','cccccc']
@@ -43,6 +44,7 @@
         async resetDay(){
             await this.state.Parse.update('Day','KYZzfD4PLE','currentFat',0);
             await this.state.Parse.update('Day','KYZzfD4PLE','currentCarbs',0);
+            
             record = await this.state.Parse.getCal('MedicalRecord','userId',1);
             curr = await this.state.Parse.getDay('Day', 'daynum',7);
                      
@@ -77,7 +79,7 @@
             //await this.state.Parse.update('Day','KYZzfD4PLE','currentCarbs',0);
             await this.state.Parse.update('Day','KYZzfD4PLE','currentFat',fat+curr.fat);
             await this.state.Parse.update('Day','KYZzfD4PLE','currentCarbs',cal+curr.cal);
-
+             
             record = await this.state.Parse.getCal('MedicalRecord','userId',1);
             curr = await this.state.Parse.getDay('Day', 'daynum',7);
                      
@@ -95,7 +97,10 @@
               .then(data => {
                     const spoons = data;
                     data.sort((a,b) => b.calories - a.calories);
-                    
+                    for (i = 0; i < this.state.dislikes.length; i++) { 
+                        data = data.filter(item => item.title.toLowerCase().indexOf(this.state.dislikes[i]) < 0);
+                    }
+                   
                     this.setState({ 
                         isLoading: false,
                         meals:data});
@@ -111,10 +116,8 @@
         
 
     async componentDidMount() {
-
         record = await this.state.Parse.getCal('MedicalRecord','userId',1);
         curr = await this.state.Parse.getDay('Day', 'daynum',7);
-                 
         fat = record.maxFat-curr.fat;
         cal = record.maxCal-curr.cal;
         URL2 = this.state.Spoonacular.filterByNutrients(cal,fat);
@@ -128,6 +131,9 @@
           .then(result => result.json())
           .then(data => {
                 data.sort((a,b) => b.calories - a.calories);
+                for (i = 0; i < this.state.dislikes.length; i++) { 
+                    data = data.filter(item => item.title.toLowerCase().indexOf(this.state.dislikes[i]) < 0);
+                }
                 this.setState({ 
                     isLoading: false,
                     spoons:'hi',

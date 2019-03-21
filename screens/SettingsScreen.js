@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet,Button } from 'react-native';
 import { ProgressCircle, LineChart, YAxis, Grid } from 'react-native-svg-charts'
 import Parse from '../APIs/Parse';
 
@@ -55,7 +55,22 @@ class SettingsScreen extends React.Component {
       } 
     }
 
-
+    async refreshChart(){
+        record = await this.state.Parse.getCal('MedicalRecord','userId',1);
+        
+        day1 = await this.state.Parse.getDay('Day', 'daynum',1);
+        day2 = await this.state.Parse.getDay('Day', 'daynum',2);
+        day3 = await this.state.Parse.getDay('Day', 'daynum',3);
+        day4 = await this.state.Parse.getDay('Day', 'daynum',4);
+        day5 = await this.state.Parse.getDay('Day', 'daynum',5);
+        day6 = await this.state.Parse.getDay('Day', 'daynum',6);
+        day7 = await this.state.Parse.getDay('Day', 'daynum',7);
+        this.setState({data1:[day1.morningGlucose,day2.morningGlucose,day3.morningGlucose,day4.morningGlucose,day5.morningGlucose,day6.morningGlucose,day7.morningGlucose]})
+        this.setState({data2:[day1.noonGlucose,day2.noonGlucose,day3.noonGlucose,day4.noonGlucose,day5.noonGlucose,day6.noonGlucose,day7.noonGlucose]})
+        this.setState({data3:[day1.nightGlucose,day2.nightGlucose,day3.nightGlucose,day4.nightGlucose,day5.nightGlucose,day6.nightGlucose,day7.nightGlucose]})
+        this.setState({total:record.maxCal})    
+        this.setState({accu:day7.cal})   
+    }
     async componentWillMount(){
         record = await this.state.Parse.getCal('MedicalRecord','userId',1);
         
@@ -100,6 +115,11 @@ class SettingsScreen extends React.Component {
         <View>
             <Text style={styles.title}> Calories Chart (kcal): </Text>
         </View>
+        <Button
+                        onPress={()=> this.refreshChart()}
+                        title="Refresh Chart"
+            />
+       
         <View>
             <ProgressCircle
                   style={ { height: 170 } }
