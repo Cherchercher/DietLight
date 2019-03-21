@@ -33,7 +33,7 @@ class ParseAPI {
     }
 
 
-    async get(className,keyName,valName){
+    async getCal(className,keyName,valName){
         const MyCustomClass = this.parse.Object.extend(className);
         const query = new Parse.Query(MyCustomClass);
         query.equalTo(keyName, valName);
@@ -42,7 +42,7 @@ class ParseAPI {
 
             // You can use the "get" method to get the value of an attribute
           // Ex: response.get("<ATTRIBUTE_NAME>")
-          return {'maxCal':results[0].get("maxCalorie"),'maxFat':results[0].get("maxCalorie")}
+          return {'maxCal':results[0].get("maxCalorie"),'maxFat':results[0].get("maxFat")}
           //  return results.get("maxCalorie");
         }, (error) => {
           return JSON.stringify(results);;
@@ -51,11 +51,30 @@ class ParseAPI {
     }
 
 
+    async getDay(className,keyName,valName){
+        const MyCustomClass = this.parse.Object.extend(className);
+        const query = new Parse.Query(MyCustomClass);
+        query.equalTo(keyName, valName);
+        
+        result  = await query.find().then((results) => {
+
+            // You can use the "get" method to get the value of an attribute
+          // Ex: response.get("<ATTRIBUTE_NAME>")
+          return {'nightGlucose':results[0].get("nightGlucose"),'noonGlucose':results[0].get("noonGlucose"),'morningGlucose':results[0].get("morningGlucose"),'fat':results[0].get("currentFat"), 'cal':results[0].get("currentCarbs") }
+          //  return results.get("maxCalorie");
+        }, (error) => {
+          return JSON.stringify(results);;
+        });
+        return result;
+    }
+
+
+
     update(className,objID,keyName,valName){
         const MyCustomClass = Parse.Object.extend(className);
         const query = new Parse.Query(MyCustomClass);
         // here you put the objectId that you want to update
-        query.get(objID).then((object) => {
+        query.get(objID).then(async(object) => {
           object.set(keyName, valName);
           object.save().then((response) => {
             // You can use the "get" method to get the value of an attribute
