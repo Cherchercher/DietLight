@@ -27,11 +27,6 @@ const styles = StyleSheet.create({
   chart: {
       marginLeft: 16,
   },
-  row: {
-      marginLeft: 'auto',
-      marginRight: 'auto',
-      flexDirection: "row",
-  }
 });
 
 class SettingsScreen extends React.Component {
@@ -111,17 +106,16 @@ class SettingsScreen extends React.Component {
   const percentage = accu/total;
   return (
     <View>
-        <View>
-            <Text style={styles.title}> Calories Chart (kcal): </Text>
-        </View>
         <Button
                         onPress={()=> this.refreshChart()}
                         title="Refresh Chart"
             />
-       
+        <View>
+            <Text style={styles.title}> Calories Chart (kcal): </Text>
+        </View>
         <View>
             <ProgressCircle
-                  style={ { height: 170 } }
+                  style={{ height: 170 }}
                   progress={ percentage }
                   progressColor={'rgb(134, 65, 244)'}
                   startAngle={ 0 }
@@ -158,7 +152,6 @@ class SettingsScreen extends React.Component {
                         <Grid/>
                     </LineChart>
                     <LineChart
-                        //style={{ flex: 1, height: 200, marginLeft: 16 }}
                         style={[StyleSheet.absoluteFill, styles.chart]}
                         data={ data2 }
                         svg={{ stroke: 'red' }}
@@ -180,30 +173,29 @@ class SettingsScreen extends React.Component {
                         <Grid/>
                     </LineChart>
         </View>
-        <View style={styles.row}>
-            <Text style={styles.text}> Breakfast: </Text>
+        <View style={{flexDirection: 'row'}}>
+            <Text> Breakfast: </Text>
             <View style = {{       width: 10,
                                    height: 10,
                                    backgroundColor: 'green',
-                                   marginTop: 5
+                                   marginTop: 5,
+                                   marginRight: 15,
                           }}         
             />
-        </View>
-        <View style={styles.row}>
-            <Text style={styles.text}> Lunch: </Text>
+            <Text> Lunch: </Text>
             <View style = {{       width: 10,
                                    height: 10,
                                    backgroundColor: 'red',
-                                   marginTop: 5
+                                   marginTop: 5,
+                                   marginRight: 15,
                           }}         
             />
-        </View>
-        <View style={styles.row}>
-            <Text style={styles.text}> Dinner: </Text>
+            <Text> Dinner: </Text>
             <View style = {{       width: 10,
                                    height: 10,
                                    backgroundColor: 'purple',
-                                   marginTop: 5
+                                   marginTop: 5,
+                                   marginRight: 15,
                           }}         
             />
         </View>
