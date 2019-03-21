@@ -45,7 +45,15 @@
         async resetDay(){
             await this.state.Parse.update('Day','KYZzfD4PLE','currentFat',0);
             await this.state.Parse.update('Day','KYZzfD4PLE','currentCarbs',0);
+            preference = await this.state.Parse.getLikes('fakeUser', 'name','Cher');
+
+    
             
+            this.setState({ 
+               likes: preference.likes,
+               dislikes: preference.dislikes,
+            });
+
             record = await this.state.Parse.getCal('MedicalRecord','userId',1);
             curr = await this.state.Parse.getDay('Day', 'daynum',7);
                      
@@ -62,9 +70,9 @@
               .then(result => result.json())
               .then(data => {
                     data.sort((a,b) => b.calories - a.calories);
+                    data = data.filter(item => item.title.toLowerCase().indexOf(this.state.dislikes[i]) < 0);
                     this.setState({ 
                         isLoading: false,
-                        spoons:'hi',
                         meals:data});
               })
               .catch((err) =>{
@@ -119,7 +127,6 @@
     async componentDidMount() {
         record = await this.state.Parse.getCal('MedicalRecord','userId',1);
         curr = await this.state.Parse.getDay('Day', 'daynum',7);
-        await this.state.Parse.create('fakeUser', 'name','Cher');
         preference = await this.state.Parse.getLikes('fakeUser', 'name','Cher');
         this.setState({ 
            likes: preference.likes,
@@ -154,7 +161,7 @@
       }
     
       render() {
-        const { query,data,displayResults,spoons } = this.state;
+        const { query,data,displayResults,dislikes } = this.state;
         if (this.state.isLoading) {
           return (
             <View style={{flex: 1}}>
@@ -187,10 +194,9 @@
             
 
             <Button
-                        onPress={()=> this.resetDay()}
-                        title="Reset Day"
+                    onPress={()=> this.resetDay()}
+                    title="Reset Day"
             />
-       
             <FlatList
                 data={this.state.meals}
                 keyExtractor={(item, index) => index.toString()}

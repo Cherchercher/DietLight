@@ -77,6 +77,13 @@ class ParseAPI {
 
           // You can use the "get" method to get the value of an attribute
         // Ex: response.get("<ATTRIBUTE_NAME>")
+        if (results[0].get("dislikes") === null && results[0].get("likes") === null){
+          return {'likes':[],'dislikes':[]}
+        } else if (results[0].get("likes") === null){
+          return {'likes':[],'dislikes':results[0].get("dislikes")}
+        } else if (results[0].get("dislikes") === null){
+          return {'dislikes':[],'likes':results[0].get("likes")}
+        } 
         return {'likes':results[0].get("likes"),'dislikes':results[0].get("dislikes") }
         //  return results.get("maxCalorie");
       }, (error) => {
