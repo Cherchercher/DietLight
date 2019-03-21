@@ -33,7 +33,7 @@ export default class LinksScreen extends React.Component {
             check = 'nightGlucose';
         }
         await this.state.Parse.update('Day','KYZzfD4PLE',check,parseInt(bsug));
-        alert('time: ' + time + '   ' + 'blood/sugar: ' + bsug + 'submitted');
+        alert('time: ' + time + '   ' + 'blood/sugar: ' + bsug + ' submitted');
     }
 
     render() {
