@@ -210,6 +210,7 @@
                         onPress={() => Linking.openURL(item.strSource)}
                     >    
                         {item.title}
+                        <Text> {"\n"} </Text>
                         Calories: {item.calories} Protein: {item.protein} Fat: {item.fat} Carbs {item.carbs}
                     </Text>
 
