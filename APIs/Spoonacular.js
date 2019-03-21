@@ -26,8 +26,8 @@ class Spoonacular {
       });
     }    
 
-    filterByNutrients(maxCal=2250,maxCarb=500,maxSaturatedFat=60){
-      return ULR = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByNutrients?&offset=0&number=10&maxCalories="+maxCal+"&maxCarbs="+maxCarb+"&maxSaturatedFat=" + maxSaturatedFat;
+    filterByNutrients(maxCal=2000,maxFat=44){
+      return ULR = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByNutrients?&offset=0&number=10&maxCalories="+maxCal+"&maxFat=" + maxFat;
     }
  }
  

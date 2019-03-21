@@ -2,6 +2,7 @@
     import React, { Component } from 'react';
     import Spoonacular from '../APIs/Spoonacular';
     import { SearchBar } from 'react-native-elements';
+    import Parse from '../APIs/Parse';
     import { 
         StyleSheet, 
         Text, 
@@ -10,8 +11,8 @@
         Linking,
         Image,
         TouchableOpacity,
-        ActivityIndicator } from 'react-native';
-
+        ActivityIndicator, Button } from 'react-native';
+    
     const URL = 'https://www.themealdb.com/api/json/v1/1/latest.php';
     
     export default class RecipeScreen extends React.Component {
@@ -28,19 +29,95 @@
                         displayResults:true,
                         meals:'',
                         spoons:'',
+                        Parse:new Parse(),
                         data:['aaaaaaa','bbbbbb','cccccc']
               }
         }
-    
+        
         updateSearch(text){
             this.setState({ query: text, displayResults:false});
             newData = this.Spoonacular.autocomplete(text);
             this.setState({data: newData});
         };
         
+        async resetDay(){
+            await this.state.Parse.update('Day','KYZzfD4PLE','currentFat',0);
+            await this.state.Parse.update('Day','KYZzfD4PLE','currentCarbs',0);
+            record = await this.state.Parse.getCal('MedicalRecord','userId',1);
+            curr = await this.state.Parse.getDay('Day', 'daynum',7);
+                     
+            fat = record.maxFat-curr.fat;
+            cal = record.maxCal-curr.cal;
+            URL2 = this.state.Spoonacular.filterByNutrients(cal,fat);
+            fetch(URL2, { 
+                method: 'get', 
+                headers: new Headers({
+                  'Accept': 'application/json',
+                  'X-RapidAPI-Key': '4a3eaf3cccmshad1fbf8cf65630cp181332jsn3979674f38e7', 
+                }), 
+              })
+              .then(result => result.json())
+              .then(data => {
+                    data.sort((a,b) => b.calories - a.calories);
+                    this.setState({ 
+                        isLoading: false,
+                        spoons:'hi',
+                        meals:data});
+              })
+              .catch((err) =>{
+                    this.setState({spoons: err});
+                    console.log(err);
+              });
+        }
+
+        async addRecipe(cal, fat) {
+            curr = await this.state.Parse.getDay('Day', 'daynum',7);
+            
+            //await this.state.Parse.update('Day','KYZzfD4PLE','currentFat',0);
+            //await this.state.Parse.update('Day','KYZzfD4PLE','currentCarbs',0);
+            await this.state.Parse.update('Day','KYZzfD4PLE','currentFat',fat+curr.fat);
+            await this.state.Parse.update('Day','KYZzfD4PLE','currentCarbs',cal+curr.cal);
+
+            record = await this.state.Parse.getCal('MedicalRecord','userId',1);
+            curr = await this.state.Parse.getDay('Day', 'daynum',7);
+                     
+            fat = record.maxFat-curr.fat;
+            cal = record.maxCal-curr.cal;
+            URL2 = this.state.Spoonacular.filterByNutrients(cal,fat);
+            fetch(URL2, { 
+                method: 'get', 
+                headers: new Headers({
+                  'Accept': 'application/json',
+                  'X-RapidAPI-Key': '4a3eaf3cccmshad1fbf8cf65630cp181332jsn3979674f38e7', 
+                }), 
+              })
+              .then(result => result.json())
+              .then(data => {
+                    const spoons = data;
+                    data.sort((a,b) => b.calories - a.calories);
+                    
+                    this.setState({ 
+                        isLoading: false,
+                        meals:data});
+              })
+              .catch((err) =>{
+                    this.setState({spoons: err});
+                    console.log(err);
+              });
+    
+        }
        
-       componentDidMount() {
-        URL2 = this.state.Spoonacular.filterByNutrients();
+
+        
+
+    async componentDidMount() {
+
+        record = await this.state.Parse.getCal('MedicalRecord','userId',1);
+        curr = await this.state.Parse.getDay('Day', 'daynum',7);
+                 
+        fat = record.maxFat-curr.fat;
+        cal = record.maxCal-curr.cal;
+        URL2 = this.state.Spoonacular.filterByNutrients(cal,fat);
         fetch(URL2, { 
             method: 'get', 
             headers: new Headers({
@@ -50,13 +127,14 @@
           })
           .then(result => result.json())
           .then(data => {
-                const spoons = data;
+                data.sort((a,b) => b.calories - a.calories);
                 this.setState({ 
                     isLoading: false,
+                    spoons:'hi',
                     meals:data});
           })
           .catch((err) =>{
-                this.setState({ spoons: err});
+                this.setState({spoons: err});
                 console.log(err);
           });
 
@@ -93,7 +171,13 @@
                     )}
                 />
                 </View> */}
+            
 
+            <Button
+                        onPress={()=> this.resetDay()}
+                        title="Reset Day"
+            />
+       
             <FlatList
                 data={this.state.meals}
                 keyExtractor={(item, index) => index.toString()}
@@ -109,6 +193,11 @@
                         {item.title}
                         Calories: {item.calories} Protein: {item.protein} Fat: {item.fat} Carbs {item.carbs}
                     </Text>
+
+                    <Button
+                        onPress={()=> this.addRecipe(parseInt(item.calories),parseInt(item.fat))}
+                        title="Add"
+                    />
                 </View>}
             />
           </View>

@@ -46,9 +46,9 @@ class SettingsScreen extends React.Component {
             accu:1500,
             burned: 250,
             isLoading: true,
-            data1 : [55, 100, 90, 60, 56, 69, 91],
-            data2 : [91, 69, 56, 60, 90, 62, 130],
-            data3 : [82, 153, 63,  100, 113, 94, 116],
+            data1 : '',
+            data2 : '',
+            data3 : '',
             contentInset : {top: 20, bottom: 20},
             isLoading: true,
             Parse:new Parse(),
@@ -56,9 +56,38 @@ class SettingsScreen extends React.Component {
     }
 
 
+    async componentWillMount(){
+        record = await this.state.Parse.getCal('MedicalRecord','userId',1);
+        
+        day1 = await this.state.Parse.getDay('Day', 'daynum',1);
+        day2 = await this.state.Parse.getDay('Day', 'daynum',2);
+        day3 = await this.state.Parse.getDay('Day', 'daynum',3);
+        day4 = await this.state.Parse.getDay('Day', 'daynum',4);
+        day5 = await this.state.Parse.getDay('Day', 'daynum',5);
+        day6 = await this.state.Parse.getDay('Day', 'daynum',6);
+        day7 = await this.state.Parse.getDay('Day', 'daynum',7);
+        this.setState({data1:[day1.morningGlucose,day2.morningGlucose,day3.morningGlucose,day4.morningGlucose,day5.morningGlucose,day6.morningGlucose,day7.morningGlucose]})
+        this.setState({data2:[day1.noonGlucose,day2.noonGlucose,day3.noonGlucose,day4.noonGlucose,day5.noonGlucose,day6.noonGlucose,day7.noonGlucose]})
+        this.setState({data3:[day1.nightGlucose,day2.nightGlucose,day3.nightGlucose,day4.nightGlucose,day5.nightGlucose,day6.nightGlucose,day7.nightGlucose]})
+        this.setState({total:record.maxCal})    
+        this.setState({accu:day7.cal})   
+    }
     async componentDidMount() {
-       record = await this.state.Parse.get('MedicalRecord','userId',1);
+       record = await this.state.Parse.getCal('MedicalRecord','userId',1);
+       
+       day1 = await this.state.Parse.getDay('Day', 'daynum',1);
+       day2 = await this.state.Parse.getDay('Day', 'daynum',2);
+       day3 = await this.state.Parse.getDay('Day', 'daynum',3);
+       day4 = await this.state.Parse.getDay('Day', 'daynum',4);
+       day5 = await this.state.Parse.getDay('Day', 'daynum',5);
+       day6 = await this.state.Parse.getDay('Day', 'daynum',6);
+       day7 = await this.state.Parse.getDay('Day', 'daynum',7);
+       this.setState({data1:[day1.morningGlucose,day2.morningGlucose,day3.morningGlucose,day4.morningGlucose,day5.morningGlucose,day6.morningGlucose,day7.morningGlucose]})
+       this.setState({data2:[day1.noonGlucose,day2.noonGlucose,day3.noonGlucose,day4.noonGlucose,day5.noonGlucose,day6.noonGlucose,day7.noonGlucose]})
+       this.setState({data3:[day1.nightGlucose,day2.nightGlucose,day3.nightGlucose,day4.nightGlucose,day5.nightGlucose,day6.nightGlucose,day7.nightGlucose]})
        this.setState({total:record.maxCal})    
+       this.setState({accu:day7.cal})    
+       
     }
     
 
