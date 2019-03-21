@@ -18,6 +18,12 @@ const styles = StyleSheet.create({
     marginLeft:'auto',
     marginRight: 'auto',
   },
+  title:{
+    marginLeft: 12,
+    fontSize: 15,
+    marginTop: 12,
+    fontWeight: 'bold',
+  },
   chart: {
       marginLeft: 16,
   },
@@ -92,16 +98,22 @@ class SettingsScreen extends React.Component {
   return (
     <View>
         <View>
+            <Text style={styles.title}> Calories Chart (kcal): </Text>
+        </View>
+        <View>
             <ProgressCircle
-                  style={ { height: 200 } }
+                  style={ { height: 170 } }
                   progress={ 0.75 }
                   progressColor={'rgb(134, 65, 244)'}
                   startAngle={ 0 }
                   endAngle={ Math.PI * 2 }
-                  strokeWidth = { 35 }
+                  strokeWidth = { 30 }
             />
             <Text style={styles.ptext}> Calories Acumulated: {accu}/{total}</Text>
             <Text style={styles.ptext}> Calories Burned: {burned}</Text>
+        </View>
+        <View>
+            <Text style={styles.title}> Blood-Sugar Chart (mg/dl): </Text>
         </View>
         <View style={{ height: 200, flexDirection: 'row' }}>
                     <YAxis
@@ -114,15 +126,15 @@ class SettingsScreen extends React.Component {
                         numberOfTicks={ 10 }
                         formatLabel={ value => `${value}` }
                         min={0}
-                        max={400}
+                        max={200}
                     />
                     <LineChart
                         style={{ flex: 1, marginLeft: 16 }}
                         data={ data1 }
-                        svg={{ stroke: 'rgb(134, 65, 244)' }}
+                        svg={{ stroke: 'green' }}
                         contentInset={ contentInset }
                         yMin={0}
-                        yMax={400}
+                        yMax={200}
                     >
                         <Grid/>
                     </LineChart>
@@ -130,10 +142,10 @@ class SettingsScreen extends React.Component {
                         //style={{ flex: 1, height: 200, marginLeft: 16 }}
                         style={[StyleSheet.absoluteFill, styles.chart]}
                         data={ data2 }
-                        svg={{ stroke: 'rgb(200, 0, 180)' }}
+                        svg={{ stroke: 'red' }}
                         contentInset={ contentInset }
                         yMin={0}
-                        yMax={400}
+                        yMax={200}
                     >
                         <Grid/>
                     </LineChart>
@@ -141,10 +153,10 @@ class SettingsScreen extends React.Component {
                         //style={{ flex: 1, height: 200, marginLeft: 16 }}
                         style={[StyleSheet.absoluteFill, styles.chart]}
                         data={ data3 }
-                        svg={{ stroke: 'rgb(0, 300, 100)' }}
+                        svg={{ stroke: 'purple' }}
                         contentInset={ contentInset }
                         yMin={0}
-                        yMax={400}
+                        yMax={200}
                     >
                         <Grid/>
                     </LineChart>
