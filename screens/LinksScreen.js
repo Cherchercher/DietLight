@@ -38,8 +38,16 @@ export default class LinksScreen extends React.Component {
         this.setState({dislikes: text });
     }
 
-    submitbs = (time, bsug) => {
-        alert('time: ' + time + '   ' + 'blood/sugar: ' + bsug)
+    submitbs = async(time, bsug) => {
+        alert('time: ' + time + '   ' + 'blood/sugar: ' + bsug);
+        if(time === 'breakfast'){
+            key = 'morningGlucose';
+        } else if (time ==="lunch"){
+            key = 'noonGlucose';
+        } else{
+            key = 'nightGlucose';
+        }
+        await this.state.Parse.update('Day','KYZzfD4PLE',key,parseInt(bsug));
     }
 
     submitlikes = async(likes) => {
