@@ -87,7 +87,6 @@ class SettingsScreen extends React.Component {
     }
     async componentDidMount() {
        record = await this.state.Parse.getCal('MedicalRecord','userId',1);
-       
        day1 = await this.state.Parse.getDay('Day', 'daynum',1);
        day2 = await this.state.Parse.getDay('Day', 'daynum',2);
        day3 = await this.state.Parse.getDay('Day', 'daynum',3);
@@ -121,7 +120,7 @@ class SettingsScreen extends React.Component {
        
         <View>
             <ProgressCircle
-                  style={ { height: 170 } }
+                  style={ { height: 150 } }
                   progress={ percentage }
                   progressColor={'rgb(134, 65, 244)'}
                   startAngle={ 0 }
@@ -134,7 +133,7 @@ class SettingsScreen extends React.Component {
         <View>
             <Text style={styles.title}> Blood-Sugar Chart (mg/dl): </Text>
         </View>
-        <View style={{ height: 200, flexDirection: 'row' }}>
+        <View style={{ height: 150, flexDirection: 'row' }}>
                     <YAxis
                         data={ data1 }
                         contentInset={ contentInset }

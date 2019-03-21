@@ -68,6 +68,23 @@ class ParseAPI {
         return result;
     }
 
+    async getLikes(className,keyName,valName){
+      const MyCustomClass = this.parse.Object.extend(className);
+      const query = new Parse.Query(MyCustomClass);
+      query.equalTo(keyName, valName);
+      
+      result  = await query.find().then((results) => {
+
+          // You can use the "get" method to get the value of an attribute
+        // Ex: response.get("<ATTRIBUTE_NAME>")
+        return {'likes':results[0].get("likes"),'dislikes':results[0].get("dislikes") }
+        //  return results.get("maxCalorie");
+      }, (error) => {
+        return JSON.stringify(results);;
+      });
+      return result;
+  }
+
 
 
     update(className,objID,keyName,valName){

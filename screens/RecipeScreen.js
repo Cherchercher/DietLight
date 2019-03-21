@@ -28,7 +28,8 @@
                         query: '',
                         displayResults:true,
                         meals:'',
-                        dislikes:[],
+                        dislikes:"",
+                        likes:'',
                         spoons:'',
                         Parse:new Parse(),
                         data:['aaaaaaa','bbbbbb','cccccc']
@@ -118,6 +119,12 @@
     async componentDidMount() {
         record = await this.state.Parse.getCal('MedicalRecord','userId',1);
         curr = await this.state.Parse.getDay('Day', 'daynum',7);
+        await this.state.Parse.create('fakeUser', 'name','Cher');
+        preference = await this.state.Parse.getLikes('fakeUser', 'name','Cher');
+        this.setState({ 
+           likes: preference.likes,
+           dislikes: preference.dislikes,
+        });
         fat = record.maxFat-curr.fat;
         cal = record.maxCal-curr.cal;
         URL2 = this.state.Spoonacular.filterByNutrients(cal,fat);

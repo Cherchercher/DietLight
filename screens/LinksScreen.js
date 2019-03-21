@@ -24,8 +24,16 @@ export default class LinksScreen extends React.Component {
         this.setState({ bsug: text })
     }
 
-    submit = (time, bsug) => {
-        alert('time: ' + time + '   ' + 'blood/sugar: ' + bsug)
+    submit = async(time, bsug) => {
+        if (time === "breakfast"){
+            check = 'morningGlucose';
+        } else if (time === "lunch"){
+            check = 'noonGlucose';
+        } else {
+            check = 'nightGlucose';
+        }
+        await this.state.Parse.update('Day','KYZzfD4PLE',check,parseInt(bsug));
+        alert('time: ' + time + '   ' + 'blood/sugar: ' + bsug + 'submitted');
     }
 
     render() {
