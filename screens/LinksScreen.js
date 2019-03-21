@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, Text, Picker } from 'react-native';
+import { ScrollView, StyleSheet, View, Text, Picker, AppRegistry, TextInput, TouchableOpacity } from 'react-native';
 import Parse from '../APIs/Parse';
 
 
@@ -7,7 +7,6 @@ export default class LinksScreen extends React.Component {
     static navigationOptions = ({ navigation }) => ({
         title: `Manual Entry`,
     });
-    state = {time: ''}
     updateTime = (time) => {
         this.setState({ time: time })
     }
@@ -16,7 +15,17 @@ export default class LinksScreen extends React.Component {
         this.state = {
             Parse:new Parse(),
             isLoading: true,
+            time: 'breakfast',
+            bsug: '',
         }
+    }
+
+    handleBloodSugar = (text) => {
+        this.setState({ bsug: text })
+    }
+
+    submit = (time, bsug) => {
+        alert('time: ' + time + '   ' + 'blood/sugar: ' + bsug)
     }
 
     render() {
@@ -32,20 +41,37 @@ export default class LinksScreen extends React.Component {
                         <Picker.Item label = "Lunch" value = "lunch" />
                         <Picker.Item label = "Dinner" value = "dinner" />
                     </Picker>
-                    <Text style={styles.text}> {this.state.time} </Text>
-                    <Text style={styles.text}> BSUG INPUT </Text>
+                    <TextInput style={{height: 40}}
+                        placeholder="Text here"
+                        onChangeText={this.handleBloodSugar}
+                    />
+                    <TouchableOpacity
+                        style = {styles.submitButton}
+                        onPress = {
+                            () => this.submit(this.state.time, this.state.bsug)
+                        }>
+                        <Text style = {styles.submitButtonText}> Submit </Text>
+                    </TouchableOpacity>
                 </View>
             </View>
-            
         );
     }
 }
 
 const styles = StyleSheet.create({
-  text: {
-    fontSize: 20,
-    marginTop: 50,
-    alignSelf: 'center',
-    color: 'red'
-  },
+    text: {
+        fontSize: 20,
+        marginTop: 50,
+        alignSelf: 'center',
+        color: 'red'
+    },
+    submitButton: {
+        backgroundColor: '#7a42f4',
+        padding: 10,
+        margin: 15,
+        height: 40,
+    },
+    submitButtonText:{
+        color: 'white'
+    }
 });
