@@ -71,7 +71,19 @@ const styles = StyleSheet.create({
         fontSize: 20,
         marginTop: 50,
         alignSelf: 'center',
-        color: 'red'
+        color: 'red',
+    },
+    title: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginTop: 20,
+    },
+    input: {
+        margin: 15,
+        height: 40,
+        borderColor: 'black',
+        borderWidth: 1,
+        padding: 10,
     },
     submitButton: {
         backgroundColor: '#7a42f4',
